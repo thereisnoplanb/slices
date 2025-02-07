@@ -1,15 +1,15 @@
 package slices
 
-func Count[TSlice ~[]T, T any](slice TSlice) (count int) {
-	return len(slice)
+import "github.com/thereisnoplanb/generic"
+
+func Count[TSource ~[]TObject, TObject any](source TSource) (count int) {
+	return len(source)
 }
 
-func CountBy[TSlice ~[]T, T any](slice TSlice, predicate Predicate[T]) (count int) {
-	if predicate != nil {
-		for _, item := range slice {
-			if predicate(item) {
-				count++
-			}
+func CountBy[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject]) (count int) {
+	for _, item := range source {
+		if predicate(item) {
+			count++
 		}
 	}
 	return count

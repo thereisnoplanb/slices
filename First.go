@@ -1,14 +1,19 @@
 package slices
 
-import "errors"
+import "github.com/thereisnoplanb/generic"
 
-func First[TSlice ~[]T, T any](slice TSlice, predicate Predicate[T]) (result T, err error) {
-	if predicate != nil {
-		for _, item := range slice {
-			if predicate(item) {
-				return item, nil
-			}
+func First[TSource ~[]TObject, TObject any](source TSource) (result TObject, err error) {
+	if len(source) == 0 {
+		return *new(TObject), ErrSourceSequenceIsEmpty
+	}
+	return source[0], nil
+}
+
+func FirstBy[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject]) (result TObject, err error) {
+	for _, item := range source {
+		if predicate(item) {
+			return item, nil
 		}
 	}
-	return *new(T), errors.New("no element satisfies predicate")
+	return *new(TObject), ErrNoElementSatisfiesTheConditionInPredicate
 }

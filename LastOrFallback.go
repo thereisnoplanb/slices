@@ -1,11 +1,18 @@
 package slices
 
-func LastOrFallback[TSlice ~[]T, T any](slice TSlice, predicate Predicate[T], fallback T) (result T) {
-	if predicate != nil {
-		for i := len(slice) - 1; i >= 0; i-- {
-			if predicate(slice[i]) {
-				return slice[i]
-			}
+import "github.com/thereisnoplanb/generic"
+
+func LastOrFallback[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject], fallback TObject) (result TObject) {
+	if len(source) > 0 {
+		return source[len(source)-1]
+	}
+	return fallback
+}
+
+func LastByOrFallback[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject], fallback TObject) (result TObject) {
+	for i := len(source) - 1; i >= 0; i-- {
+		if predicate(source[i]) {
+			return source[i]
 		}
 	}
 	return fallback

@@ -1,22 +1,30 @@
 package slices
 
-import "errors"
+import "github.com/thereisnoplanb/generic"
 
-func Single[TSlice ~[]T, T any](slice TSlice, predicate Predicate[T]) (result T, err error) {
-	if predicate != nil {
-		found := false
-		for _, item := range slice {
-			if predicate(item) {
-				if found {
-					return *new(T), errors.New("more than one element satisfies predicate")
-				}
-				result = item
-				found = true
+func Single[TSource ~[]TObject, TObject any](source TSource) (result TObject, err error) {
+	if len(source) == 1 {
+		return source[0], nil
+	}
+	if len(source) > 0 {
+		return *new(TObject), ErrSourceSequenceHasMoreThanOneElement
+	}
+	return *new(TObject), ErrSourceSequenceIsEmpty
+}
+
+func SingleBy[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject]) (result TObject, err error) {
+	found := false
+	for _, item := range source {
+		if predicate(item) {
+			if found {
+				return *new(TObject), ErrMoreThanOneElementSatisfiesTheConditionInPredicate
 			}
-		}
-		if found {
-			return result, nil
+			result = item
+			found = true
 		}
 	}
-	return *new(T), errors.New("no element satisfies predicate")
+	if found {
+		return result, nil
+	}
+	return *new(TObject), ErrNoElementSatisfiesTheConditionInPredicate
 }

@@ -1,31 +1,61 @@
 package slices
 
-import "cmp"
+import (
+	"sort"
 
-func Order[TSlice ~[]T, T cmp.Ordered](slice TSlice) (result TSlice) {
-	result = make(TSlice, len(slice))
-	copy(result, slice)
-	for i := 0; i < len(result); i++ {
-		for j := i; j < len(result); j++ {
-			if result[i] < result[j] {
-				result[i], result[j] = result[j], result[i]
-			}
-		}
-	}
+	"github.com/thereisnoplanb/generic"
+)
+
+func Order[TSource ~[]TObject, TObject generic.Comparable](source TSource) (result TSource) {
+	result = make(TSource, len(source))
+	copy(result, source)
+	sort.Slice(result, func(i, j int) bool {
+		return result[i] < result[j]
+	})
 	return result
 }
 
-func OrderBy[TSlice ~[]T, T any, TResult cmp.Ordered](slice TSlice, valueSelector ValueSelector[T, TResult]) (result TSlice) {
-	result = make(TSlice, len(slice))
-	copy(result, slice)
-	if valueSelector != nil {
-		for i := 0; i < len(result); i++ {
-			for j := i; j < len(result); j++ {
-				if valueSelector(result[i]) < valueSelector(result[j]) {
-					result[i], result[j] = result[j], result[i]
-				}
-			}
-		}
-	}
+func OrderComparable[TSource ~[]TObject, TObject generic.IComparable[TObject]](source TSource) (result TSource) {
+	result = make(TSource, len(source))
+	copy(result, source)
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Compare(result[j]) < 0
+	})
+	return result
+}
+
+func OrderComparator[TSource ~[]TObject, TObject any](source TSource, compare generic.Comparison[TObject]) (result TSource) {
+	result = make(TSource, len(source))
+	copy(result, source)
+	sort.Slice(result, func(i, j int) bool {
+		return compare(result[i], result[j]) < 0
+	})
+	return result
+}
+
+func OrderBy[TSource ~[]TObject, TObject any, TResult generic.Comparable](source TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+	result = make(TSource, len(source))
+	copy(result, source)
+	sort.Slice(result, func(i, j int) bool {
+		return valueSelector(result[i]) < valueSelector(result[j])
+	})
+	return result
+}
+
+func OrderByComparable[TSource ~[]TObject, TObject any, TResult generic.IComparable[TResult]](source TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+	result = make(TSource, len(source))
+	copy(result, source)
+	sort.Slice(result, func(i, j int) bool {
+		return valueSelector(result[i]).Compare(valueSelector(result[j])) < 0
+	})
+	return result
+}
+
+func OrderByComparator[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector generic.ValueSelector[TObject, TResult], compare generic.Comparison[TResult]) (result TSource) {
+	result = make(TSource, len(source))
+	copy(result, source)
+	sort.Slice(result, func(i, j int) bool {
+		return compare(valueSelector(result[i]), valueSelector(result[j])) < 0
+	})
 	return result
 }

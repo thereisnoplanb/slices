@@ -1,20 +1,24 @@
 package slices
 
-func SingleOrDefault[TSlice ~[]T, T any](slice TSlice, predicate Predicate[T]) (result T) {
-	if predicate != nil {
-		found := false
-		for _, item := range slice {
-			if predicate(item) {
-				if found {
-					return *new(T)
-				}
-				result = item
-				found = true
+import "github.com/thereisnoplanb/generic"
+
+func SingleOrDefault[TSource ~[]TObject, TObject any](source TSource) (result TObject) {
+	if len(source) == 1 {
+		return source[0]
+	}
+	return *new(TObject)
+}
+
+func SingleByOrDefault[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject]) (result TObject) {
+	found := false
+	for _, item := range source {
+		if predicate(item) {
+			if found {
+				return *new(TObject)
 			}
-		}
-		if found {
-			return result
+			result = item
+			found = true
 		}
 	}
-	return *new(T)
+	return result
 }

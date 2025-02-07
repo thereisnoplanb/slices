@@ -7,7 +7,7 @@ import (
 
 func TestExcept(t *testing.T) {
 	type args struct {
-		slice  []int
+		source []int
 		except []int
 	}
 	tests := []struct {
@@ -18,7 +18,7 @@ func TestExcept(t *testing.T) {
 		{
 			name: "Intersect",
 			args: args{
-				slice:  []int{1, 2, 3, 4, 5},
+				source: []int{1, 2, 3, 4, 5},
 				except: []int{3, 4, 5, 6, 7},
 			},
 			wantResult: []int{1, 2},
@@ -26,7 +26,7 @@ func TestExcept(t *testing.T) {
 		{
 			name: "Intersect nil 1",
 			args: args{
-				slice:  nil,
+				source: nil,
 				except: []int{3, 4, 5, 6, 7},
 			},
 			wantResult: []int{},
@@ -34,7 +34,7 @@ func TestExcept(t *testing.T) {
 		{
 			name: "Intersect nil 2",
 			args: args{
-				slice:  []int{1, 2, 3, 4, 5},
+				source: []int{1, 2, 3, 4, 5},
 				except: nil,
 			},
 			wantResult: []int{1, 2, 3, 4, 5},
@@ -42,7 +42,7 @@ func TestExcept(t *testing.T) {
 		{
 			name: "Intersect - no",
 			args: args{
-				slice:  []int{1, 2, 3, 4, 5},
+				source: []int{1, 2, 3, 4, 5},
 				except: []int{6, 7, 8, 9, 0},
 			},
 			wantResult: []int{1, 2, 3, 4, 5},
@@ -50,7 +50,7 @@ func TestExcept(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotResult := Except(tt.args.slice, tt.args.except); !reflect.DeepEqual(gotResult, tt.wantResult) {
+			if gotResult := Except(tt.args.source, tt.args.except); !reflect.DeepEqual(gotResult, tt.wantResult) {
 				t.Errorf("Except() = %v, want %v", gotResult, tt.wantResult)
 			}
 		})
