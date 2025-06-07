@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thereisnoplanb/generic"
+	"github.com/thereisnoplanb/compare"
 )
 
 func TestMax1(t *testing.T) {
@@ -115,12 +115,12 @@ func TestMax3(t *testing.T) {
 		Value int
 		Other string
 	}
-	compare := func(this SomeType, other SomeType) int {
+	compareF := func(this SomeType, other SomeType) int {
 		return this.Value - other.Value
 	}
 	type args struct {
 		source  []SomeType
-		compare generic.Comparison[SomeType]
+		compare compare.Comparison[SomeType]
 	}
 	tests := []struct {
 		name       string
@@ -132,7 +132,7 @@ func TestMax3(t *testing.T) {
 			name: "Nil collection",
 			args: args{
 				source:  nil,
-				compare: compare,
+				compare: compareF,
 			},
 			wantResult: SomeType{},
 			wantErr:    true,
@@ -141,7 +141,7 @@ func TestMax3(t *testing.T) {
 			name: "Empty collection",
 			args: args{
 				source:  []SomeType{},
-				compare: compare,
+				compare: compareF,
 			},
 			wantResult: SomeType{},
 			wantErr:    true,
@@ -154,7 +154,7 @@ func TestMax3(t *testing.T) {
 					{Value: 3, Other: "three"},
 					{Value: 2, Other: "two"},
 				},
-				compare: compare,
+				compare: compareF,
 			},
 			wantResult: SomeType{Value: 3, Other: "three"},
 			wantErr:    false,
@@ -162,13 +162,13 @@ func TestMax3(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotResult, err := MaxComparator(tt.args.source, tt.args.compare)
+			gotResult, err := MaxFunc(tt.args.source, tt.args.compare)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("MaxComparator() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("MaxFunc() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(gotResult, tt.wantResult) {
-				t.Errorf("MaxComparator() = %v, want %v", gotResult, tt.wantResult)
+				t.Errorf("MaxFunc() = %v, want %v", gotResult, tt.wantResult)
 			}
 		})
 	}

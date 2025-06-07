@@ -1,18 +1,28 @@
 package slices
 
-import "github.com/thereisnoplanb/generic"
+import (
+	"github.com/thereisnoplanb/compare"
+	"github.com/thereisnoplanb/delegate"
+)
 
 // Determines whether a sequence contains a specified element by using the default equality comparer.
 //
-// Parameters
+// # Parameters
 //
-//	source []TObject - A sequence in which to locate a value.
-//	value TObject - The value to locate in the sequence.
+//	source []TObject
 //
-// Return Value
+// A sequence in which to locate a value.
 //
-//	result bool - true if the source sequence contains an element that has the specified value; otherwise, false.
-func Contains[TSource ~[]TObject, TObject generic.Equatable](source TSource, value TObject) (result bool) {
+//	value TObject
+//
+// The value to locate in the sequence.
+//
+// # Returns
+//
+//	result bool
+//
+// True if the source sequence contains an element that has the specified value; otherwise, false.
+func Contains[TSource ~[]TObject, TObject comparable](source TSource, value TObject) (result bool) {
 	for _, item := range source {
 		if item == value {
 			return true
@@ -21,17 +31,52 @@ func Contains[TSource ~[]TObject, TObject generic.Equatable](source TSource, val
 	return false
 }
 
+// Determines whether a sequence contains a specified element by using a specified equality comparer function.
+//
+// # Parameters
+//
+//	source []TObject
+//
+// A sequence in which to locate a value.
+//
+//	value TObject
+//
+// The value to locate in the sequence.
+//
+//	equality Equality[TObject]
+//
+// A function that compares two objects of type TObject for equality.
+//
+// # Returns
+//
+//	result bool
+//
+// True if the source sequence contains an element that has the specified value; otherwise, false.
+func ContainsFunc[TSource ~[]TObject, TObject any](source TSource, value TObject, equality compare.Equality[TObject]) (result bool) {
+	for _, item := range source {
+		if equality(item, value) {
+			return true
+		}
+	}
+	return false
+}
+
 // Determines whether a sequence contains a specified element by using the IEquatable interface.
 //
-// Parameters
+// # Parameters
 //
-//	source []TObject - A sequence in which to locate a value.
-//	value T - The value to locate in the sequence.
+//	source []TObject
 //
-// Return Value
+// A sequence in which to locate a value.
 //
-//	result bool - true if the source sequence contains an element that has the specified value; otherwise, false.
-func ContainsEquatable[TSource ~[]TObject, TObject generic.IEquatable[TObject]](source TSource, value TObject) (result bool) {
+//	value TObject - The value to locate in the sequence.
+//
+// # Returns
+//
+//	result bool
+//
+// True if the source sequence contains an element that has the specified value; otherwise, false.
+func ContainsEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](source TSource, value TObject) (result bool) {
 	for _, item := range source {
 		if value.Equal(item) {
 			return true
@@ -40,27 +85,7 @@ func ContainsEquatable[TSource ~[]TObject, TObject generic.IEquatable[TObject]](
 	return false
 }
 
-// Determines whether a sequence contains a specified element by using a specified equality comparer function.
-//
-// Parameters
-//
-//	source []TObject - A sequence in which to locate a value.
-//	value T - The value to locate in the sequence.
-//	equality Equality[T] - A function that compares two objects of type T.
-//
-// Return Value
-//
-//	result bool - true if the source sequence contains an element that has the specified value; otherwise, false.
-func ContainsEquality[TSource ~[]TObject, TObject any](source TSource, value TObject, equality generic.Equality[TObject]) (result bool) {
-	for _, item := range source {
-		if equality(value, item) {
-			return true
-		}
-	}
-	return false
-}
-
-func ContainsBy[TSource ~[]TObject, TObject any, TResult generic.Equatable](source TSource, value TObject, valueSelector generic.ValueSelector[TObject, TResult]) (result bool) {
+func ContainsBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, value TObject, valueSelector delegate.ValueSelector[TObject, TResult]) (result bool) {
 	selectedValue := valueSelector(value)
 	for _, item := range source {
 		if selectedValue == valueSelector(item) {
@@ -70,7 +95,7 @@ func ContainsBy[TSource ~[]TObject, TObject any, TResult generic.Equatable](sour
 	return false
 }
 
-func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult generic.IEquatable[TResult]](source TSource, value TObject, valueSelector generic.ValueSelector[TObject, TResult]) (result bool) {
+func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, value TObject, valueSelector delegate.ValueSelector[TObject, TResult]) (result bool) {
 	selectedValue := valueSelector(value)
 	for _, item := range source {
 		if selectedValue.Equal(valueSelector(item)) {
@@ -80,7 +105,7 @@ func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult generic.IEquat
 	return false
 }
 
-func ContainsByEquality[TSource ~[]TObject, TObject any, TResult any](source TSource, value TObject, valueSelector generic.ValueSelector[TObject, TResult], equality generic.Equality[TResult]) (result bool) {
+func ContainsByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, value TObject, valueSelector delegate.ValueSelector[TObject, TResult], equality compare.Equality[TResult]) (result bool) {
 	selectedValue := valueSelector(value)
 	for _, item := range source {
 		if equality(selectedValue, valueSelector(item)) {

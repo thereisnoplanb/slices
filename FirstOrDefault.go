@@ -1,34 +1,38 @@
 package slices
 
-import "github.com/thereisnoplanb/generic"
+import "github.com/thereisnoplanb/delegate"
 
-// Return Value the first element of a sequence, or a default value if the sequence contains no elements.
+// Returns the first element in a sequence that satisfies a specified condition or the default value if there is no such element.
 //
-// Parameters
-//	source TObject - Slice to return an element from.
+// # Parameters
 //
-// Return Value
-//	result TObject - default value if source is empty; otherwise, the first element in source.
-func FirstOrDefault[TSource ~[]TObject, TObject any](source TSource) (result TObject) {
+//	source []TObject
+//
+// A slice to return an element from.
+//
+//	predicate Predicate[TObject] [OPTIONAL]
+//
+// A function to test each element for a condition.
+//
+// # Returns
+//
+//	result TObject
+//
+// The first element in the sequence that passes the test in the specified predicate function or
+// the first element in the sequence when predicate is ommited or
+// the default value if there is no such element.
+func FirstOrDefault[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (result TObject) {
 	if len(source) > 0 {
+		if len(predicate) > 0 {
+			Predicate := predicate[0]
+			for i, item := range source {
+				if Predicate(item) {
+					return source[i]
+				}
+			}
+			return *(new(TObject))
+		}
 		return source[0]
 	}
-	return *new(TObject)
-}
-
-// Return Value the first element of the sequence that satisfies a condition or a default value if no such element is found.
-//
-// Parameters
-//	source []TObject - Slice to return an element from.
-//	predicate Predicate[TObject] - A function to test each element for a condition.
-//
-// Return Value
-//	result TObject - default value if source is empty or if no element passes the test specified by predicate; otherwise, the first element in source that passes the test specified by predicate.
-func FirstByOrDefault[TSource ~[]TObject, TObject any](source TSource, predicate generic.Predicate[TObject]) (result TObject) {
-	for _, item := range source {
-		if predicate(item) {
-			return item
-		}
-	}
-	return *new(TObject)
+	return *(new(TObject))
 }

@@ -1,8 +1,11 @@
 package slices
 
-import "github.com/thereisnoplanb/generic"
+import (
+	"github.com/thereisnoplanb/compare"
+	"github.com/thereisnoplanb/delegate"
+)
 
-func Distinct[TSource ~[]TObject, TObject generic.Equatable](source TSource) (result TSource) {
+func Distinct[TSource ~[]TObject, TObject comparable](source TSource) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !Contains(result, item) {
@@ -12,7 +15,17 @@ func Distinct[TSource ~[]TObject, TObject generic.Equatable](source TSource) (re
 	return result
 }
 
-func DistinctEquatable[TSource ~[]TObject, TObject generic.IEquatable[TObject]](source TSource) (result TSource) {
+func DistinctFunc[TSource ~[]TObject, TObject any](source TSource, equality compare.Equality[TObject]) (result TSource) {
+	result = make(TSource, 0, len(source))
+	for _, item := range source {
+		if !ContainsFunc(result, item, equality) {
+			result = append(result, item)
+		}
+	}
+	return result
+}
+
+func DistinctEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](source TSource) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsEquatable(result, item) {
@@ -22,17 +35,17 @@ func DistinctEquatable[TSource ~[]TObject, TObject generic.IEquatable[TObject]](
 	return result
 }
 
-func DistinctEqualityComparer[TSource ~[]TObject, TObject any](source TSource, equality generic.Equality[TObject]) (result TSource) {
-	result = make(TSource, 0, len(source))
-	for _, item := range source {
-		if !ContainsEquality(result, item, equality) {
-			result = append(result, item)
-		}
-	}
-	return result
-}
+// func DistinctEqualityComparer[TSource ~[]TObject, TObject any](source TSource, equality generic.Equality[TObject]) (result TSource) {
+// 	result = make(TSource, 0, len(source))
+// 	for _, item := range source {
+// 		if !ContainsEquality(result, item, equality) {
+// 			result = append(result, item)
+// 		}
+// 	}
+// 	return result
+// }
 
-func DistinctBy[TSource ~[]TObject, TObject any, TResult generic.Equatable](source TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+func DistinctBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsBy(result, item, valueSelector) {
@@ -42,7 +55,7 @@ func DistinctBy[TSource ~[]TObject, TObject any, TResult generic.Equatable](sour
 	return result
 }
 
-func DistinctByEquatable[TSource ~[]TObject, TObject any, TResult generic.IEquatable[TResult]](source TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+func DistinctByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsByEquatable(result, item, valueSelector) {
@@ -52,10 +65,10 @@ func DistinctByEquatable[TSource ~[]TObject, TObject any, TResult generic.IEquat
 	return result
 }
 
-func DistinctByEqualityComparer[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector generic.ValueSelector[TObject, TResult], equality generic.Equality[TResult]) (result TSource) {
+func DistinctByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector delegate.ValueSelector[TObject, TResult], equality compare.Equality[TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
-		if !ContainsByEquality(result, item, valueSelector, equality) {
+		if !ContainsByFunc(result, item, valueSelector, equality) {
 			result = append(result, item)
 		}
 	}

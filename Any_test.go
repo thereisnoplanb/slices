@@ -3,13 +3,13 @@ package slices
 import (
 	"testing"
 
-	"github.com/thereisnoplanb/generic"
+	"github.com/thereisnoplanb/delegate"
 )
 
 func TestAny(t *testing.T) {
 	type args struct {
 		source    []int
-		predicate generic.Predicate[int]
+		predicate delegate.Predicate[int]
 	}
 	tests := []struct {
 		name       string

@@ -5,14 +5,14 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/thereisnoplanb/generic"
+	"github.com/thereisnoplanb/delegate"
 )
 
 func TestAggreagate(t *testing.T) {
 	type args struct {
 		source     []int
 		seed       string
-		accumulate generic.Accumulator[int, string]
+		accumulate delegate.Accumulator[int, string]
 	}
 	tests := []struct {
 		name       string

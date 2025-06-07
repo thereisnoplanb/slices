@@ -1,8 +1,11 @@
 package slices
 
-import "github.com/thereisnoplanb/generic"
+import (
+	"github.com/thereisnoplanb/compare"
+	"github.com/thereisnoplanb/delegate"
+)
 
-func Except[TSource ~[]TObject, TObject generic.Equatable](source TSource, except TSource) (result TSource) {
+func Except[TSource ~[]TObject, TObject comparable](source TSource, except TSource) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !Contains(except, item) {
@@ -12,7 +15,7 @@ func Except[TSource ~[]TObject, TObject generic.Equatable](source TSource, excep
 	return result
 }
 
-func ExceptEquatable[TSource ~[]TObject, TObject generic.IEquatable[TObject]](source TSource, except TSource) (result TSource) {
+func ExceptEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](source TSource, except TSource) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsEquatable(except, item) {
@@ -22,17 +25,17 @@ func ExceptEquatable[TSource ~[]TObject, TObject generic.IEquatable[TObject]](so
 	return result
 }
 
-func ExceptEqualityComparer[TSource ~[]TObject, TObject any](source TSource, except TSource, equality generic.Equality[TObject]) (result TSource) {
+func ExceptFunc[TSource ~[]TObject, TObject any](source TSource, except TSource, equality compare.Equality[TObject]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
-		if !ContainsEquality(except, item, equality) {
+		if !ContainsFunc(except, item, equality) {
 			result = append(result, item)
 		}
 	}
 	return result
 }
 
-func ExceptBy[TSource ~[]TObject, TObject any, TResult generic.Equatable](source TSource, except TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+func ExceptBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, except TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsBy(except, item, valueSelector) {
@@ -42,7 +45,7 @@ func ExceptBy[TSource ~[]TObject, TObject any, TResult generic.Equatable](source
 	return result
 }
 
-func ExceptByEquatable[TSource ~[]TObject, TObject any, TResult generic.IEquatable[TResult]](source TSource, except TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+func ExceptByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, except TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsByEquatable(except, item, valueSelector) {
@@ -52,10 +55,10 @@ func ExceptByEquatable[TSource ~[]TObject, TObject any, TResult generic.IEquatab
 	return result
 }
 
-func ExceptByEqualityComparer[TSource ~[]TObject, TObject any, TResult any](source TSource, except TSource, valueSelctor generic.ValueSelector[TObject, TResult], equality generic.Equality[TResult]) (result TSource) {
+func ExceptByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, except TSource, valueSelctor delegate.ValueSelector[TObject, TResult], equality compare.Equality[TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
-		if !ContainsByEquality(except, item, valueSelctor, equality) {
+		if !ContainsByFunc(except, item, valueSelctor, equality) {
 			result = append(result, item)
 		}
 	}

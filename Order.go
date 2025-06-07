@@ -3,10 +3,11 @@ package slices
 import (
 	"sort"
 
-	"github.com/thereisnoplanb/generic"
+	"github.com/thereisnoplanb/compare"
+	"github.com/thereisnoplanb/delegate"
 )
 
-func Order[TSource ~[]TObject, TObject generic.Comparable](source TSource) (result TSource) {
+func Order[TSource ~[]TObject, TObject compare.Comparable](source TSource) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -15,7 +16,7 @@ func Order[TSource ~[]TObject, TObject generic.Comparable](source TSource) (resu
 	return result
 }
 
-func OrderComparable[TSource ~[]TObject, TObject generic.IComparable[TObject]](source TSource) (result TSource) {
+func OrderComparable[TSource ~[]TObject, TObject compare.IComparable[TObject]](source TSource) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -24,7 +25,7 @@ func OrderComparable[TSource ~[]TObject, TObject generic.IComparable[TObject]](s
 	return result
 }
 
-func OrderComparator[TSource ~[]TObject, TObject any](source TSource, compare generic.Comparison[TObject]) (result TSource) {
+func OrderComparator[TSource ~[]TObject, TObject any](source TSource, compare compare.Comparison[TObject]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -33,7 +34,7 @@ func OrderComparator[TSource ~[]TObject, TObject any](source TSource, compare ge
 	return result
 }
 
-func OrderBy[TSource ~[]TObject, TObject any, TResult generic.Comparable](source TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+func OrderBy[TSource ~[]TObject, TObject any, TResult compare.Comparable](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -42,7 +43,7 @@ func OrderBy[TSource ~[]TObject, TObject any, TResult generic.Comparable](source
 	return result
 }
 
-func OrderByComparable[TSource ~[]TObject, TObject any, TResult generic.IComparable[TResult]](source TSource, valueSelector generic.ValueSelector[TObject, TResult]) (result TSource) {
+func OrderByComparable[TSource ~[]TObject, TObject any, TResult compare.IComparable[TResult]](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -51,7 +52,7 @@ func OrderByComparable[TSource ~[]TObject, TObject any, TResult generic.ICompara
 	return result
 }
 
-func OrderByComparator[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector generic.ValueSelector[TObject, TResult], compare generic.Comparison[TResult]) (result TSource) {
+func OrderByComparator[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector delegate.ValueSelector[TObject, TResult], compare compare.Comparison[TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {

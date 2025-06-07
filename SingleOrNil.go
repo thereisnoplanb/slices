@@ -2,7 +2,7 @@ package slices
 
 import "github.com/thereisnoplanb/delegate"
 
-// Returns the only element of a sequence that satisfies a specified condition or the default value if there is no such element.
+// Returns the pointer to the only element of a sequence that satisfies a specified condition or nil value if there is no such element.
 //
 // # Parameters
 //
@@ -20,30 +20,30 @@ import "github.com/thereisnoplanb/delegate"
 //
 // The single element in the sequence that passes the test in the specified predicate function or
 // the single element in the sequence when predicate is ommited or
-// the default value if there is no such element.
-func SingleOrDefault[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (result TObject) {
+// the nil value if there is no such element.
+func SingleOrNil[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (result *TObject) {
 	if len(source) > 0 {
 		if len(predicate) > 0 {
 			found := false
 			Predicate := predicate[0]
-			for _, item := range source {
+			for i, item := range source {
 				if Predicate(item) {
 					if found {
-						return *new(TObject)
+						return nil
 					}
-					result = item
+					result = &source[i]
 					found = true
 				}
 			}
 			if found {
 				return result
 			}
-			return *new(TObject)
+			return nil
 		}
 		if len(source) == 1 {
-			return source[0]
+			return &source[0]
 		}
-		return *new(TObject)
+		return nil
 	}
-	return *new(TObject)
+	return nil
 }
