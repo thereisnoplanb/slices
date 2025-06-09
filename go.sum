@@ -2,7 +2,3 @@ github.com/thereisnoplanb/compare v0.0.0-20250402192959-b2e925b5f4c4 h1:CaYC0hj2
 github.com/thereisnoplanb/compare v0.0.0-20250402192959-b2e925b5f4c4/go.mod h1:GcuaYygKNB3vLRSXXneV2yM0pjOXSfwKt4xig2UE7tg=
 github.com/thereisnoplanb/delegate v0.0.0-20250409202237-cec97f0c2930 h1:B81ARh+NXXFzoxvxn0bVLe+mwxkt47icsB1LEumSLug=
 github.com/thereisnoplanb/delegate v0.0.0-20250409202237-cec97f0c2930/go.mod h1:eoZULfrMey/WcTqMTn55qwXQnDxFw42Drn761MR/VUI=
-github.com/thereisnoplanb/generic v0.0.0-20250205193500-61b151dc5fb7 h1:qOKJ5kJgMWAOSvzoSePrQIRO2Tbk+3xbQGDPLC8HCWU=
-github.com/thereisnoplanb/generic v0.0.0-20250205193500-61b151dc5fb7/go.mod h1:1BegUv2b1buXj+MRrMMyTylKWGC+ggkYFnTA8Qh+WFE=
-github.com/thereisnoplanb/generic v0.0.0-20250206191606-22d05cf4b873 h1:4WFMsO6LqfC3XO8n8lr3OqKviE7LraHyZTm6Pm6Jssw=
-github.com/thereisnoplanb/generic v0.0.0-20250206191606-22d05cf4b873/go.mod h1:1BegUv2b1buXj+MRrMMyTylKWGC+ggkYFnTA8Qh+WFE=
