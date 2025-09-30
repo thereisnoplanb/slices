@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Determines whether any element of a sequence satisfies a condition.
 //
 // # Parameters
@@ -10,7 +8,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A slice whose elements to apply the predicate to.
 //
-// 	predicate Predicate[TObject] [OPTIONAL]
+// 	predicate predicate[TObject] [OPTIONAL]
 //
 // A function to test each element for a condition.
 //
@@ -23,7 +21,7 @@ import "github.com/thereisnoplanb/delegate"
 // # Remarks
 //
 // If predicate parameter is ommited function returns true if the source sequence contains any elements; otherwise, false.
-func Any[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (result bool) {
+func Any[TSource ~[]TObject, TObject any](source TSource, predicate ...predicate[TObject]) (result bool) {
 	if len(predicate) > 0 {
 		Predicate := predicate[0]
 		for _, item := range source {

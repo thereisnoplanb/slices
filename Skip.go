@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Bypasses a specified number of elements in a sequence and then returns the remaining elements.
 //
 // # Parameters
@@ -69,7 +67,7 @@ func SkipLast[TSource ~[]TObject, TObject any](source TSource, count int) (resul
 //
 // A sequence to return elements from.
 //
-//	predicate Predicate[TObject]
+//	predicate predicate[TObject]
 //
 // A function to test each element for a condition.
 //
@@ -79,7 +77,7 @@ func SkipLast[TSource ~[]TObject, TObject any](source TSource, count int) (resul
 //
 // A sequence that contains the elements from the source sequence starting at the first element in the linear series
 // that does not pass the test specified by predicate.
-func SkipWhile[TSource ~[]TObject, TObject any](source TSource, predicate delegate.Predicate[TObject]) (result TSource) {
+func SkipWhile[TSource ~[]TObject, TObject any](source TSource, predicate predicate[TObject]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !predicate(item) {

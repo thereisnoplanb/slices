@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Returns the only element of a sequence that satisfies a specified condition.
 //
 // # Parameters
@@ -10,7 +8,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A slice to return a single element from.
 //
-//	predicate Predicate[TObject] [OPTIONAL]
+//	predicate predicate[TObject] [OPTIONAL]
 //
 // A function to test each element for a condition.
 //
@@ -27,7 +25,7 @@ import "github.com/thereisnoplanb/delegate"
 // ErrMoreThanOneElementSatisfiesTheConditionInPredicate - when the sequence contains more than one element that satisfies the condition in predicate.
 // ErrSourceSequenceHasMoreThanOneElement - when the sequence contains more than one element and predicate function is ommited.
 // ErrSourceSequenceIsEmpty - when the sequence contains no elements.
-func Single[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (result TObject, err error) {
+func Single[TSource ~[]TObject, TObject any](source TSource, predicate ...predicate[TObject]) (result TObject, err error) {
 	if len(source) > 0 {
 		if len(predicate) > 0 {
 			found := false

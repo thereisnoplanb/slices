@@ -1,15 +1,11 @@
 package slices
 
-import (
-	"testing"
-
-	"github.com/thereisnoplanb/delegate"
-)
+import "testing"
 
 func TestAll(t *testing.T) {
 	type args struct {
 		source    []int
-		predicate delegate.Predicate[int]
+		predicate predicate[int]
 	}
 	tests := []struct {
 		name       string

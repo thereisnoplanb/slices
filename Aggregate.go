@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Applies an accumulate function over a sequence. The specified seed value is used as the initial accumulator value.
 //
 // # Parameters
@@ -14,7 +12,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // The initial accumulator value.
 //
-//	accumulate Accumulator[TObject, TAccumulator]
+//	accumulate accumulate[TAccumulator, TObject]
 //
 // An accumulate function to be invoked on each element.
 //
@@ -23,7 +21,7 @@ import "github.com/thereisnoplanb/delegate"
 //	result TAccumulator
 //
 // The final accumulator value.
-func Aggreagate[TSource ~[]TObject, TObject any, TAccumulator any](source TSource, seed TAccumulator, accumulate delegate.Accumulator[TObject, TAccumulator]) (result TAccumulator) {
+func Aggreagate[TSource ~[]TObject, TObject any, TAccumulator any](source TSource, seed TAccumulator, accumulate accumulate[TAccumulator, TObject]) (result TAccumulator) {
 	result = seed
 	for _, item := range source {
 		result = accumulate(result, item)

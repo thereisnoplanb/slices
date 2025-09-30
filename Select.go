@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Projects each element of a sequence into a new form.
 //
 // # Parameters
@@ -10,7 +8,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A sequence of values to invoke a transform function on.
 //
-//	valueSelector ValueSelector[TObject,TResult]
+//	valueSelector valueSelector[TObject,TResult]
 //
 // A transform function to apply to each element.
 //
@@ -19,7 +17,7 @@ import "github.com/thereisnoplanb/delegate"
 //	result []TResult
 //
 // A sequence whose elements are the result of invoking the transform function on each element of source sequence.
-func Select[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result []TResult) {
+func Select[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector valueSelector[TObject, TResult]) (result []TResult) {
 	result = make([]TResult, len(source))
 	for i := range source {
 		result[i] = valueSelector(source[i])

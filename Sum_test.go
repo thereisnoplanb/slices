@@ -44,3 +44,53 @@ func TestSum(t *testing.T) {
 		})
 	}
 }
+
+func TestSumFunc(t *testing.T) {
+	type args struct {
+		source        []int
+		valueSelector valueSelector[int, int]
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantResult int
+	}{
+		{
+			name: "Nil collection",
+			args: args{
+				source: nil,
+				valueSelector: func(object int) int {
+					return object
+				},
+			},
+			wantResult: 0,
+		},
+		{
+			name: "Empty collection",
+			args: args{
+				source: []int{},
+				valueSelector: func(object int) int {
+					return object
+				},
+			},
+			wantResult: 0,
+		},
+		{
+			name: "Collection with some values",
+			args: args{
+				source: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+				valueSelector: func(object int) int {
+					return object
+				},
+			},
+			wantResult: 45,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotResult := SumFunc(tt.args.source, tt.args.valueSelector); !reflect.DeepEqual(gotResult, tt.wantResult) {
+				t.Errorf("Sum() = %v, want %v", gotResult, tt.wantResult)
+			}
+		})
+	}
+}

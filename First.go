@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Returns the first element in a sequence that satisfies a specified condition.
 //
 // # Parameters
@@ -10,7 +8,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A slice to return an element from.
 //
-//	predicate Predicate[TObject] [OPTIONAL]
+//	predicate predicate[TObject] [OPTIONAL]
 //
 // A function to test each element for a condition.
 //
@@ -25,7 +23,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // ErrNoElementSatisfiesTheConditionInPredicate - when the sequence contains no element that satisfies the condition in predicate.
 // ErrSourceSequenceIsEmpty - when the sequence contains no elements.
-func First[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (result TObject, err error) {
+func First[TSource ~[]TObject, TObject any](source TSource, predicate ...predicate[TObject]) (result TObject, err error) {
 	if len(source) > 0 {
 		if len(predicate) > 0 {
 			Predicate := predicate[0]

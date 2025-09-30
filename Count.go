@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Returns a number that represents how many elements in the specified sequence satisfy a condition.
 //
 // # Parameters
@@ -10,7 +8,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A sequence that contains elements to be tested and counted.
 //
-//	predicate Predicate[TObject] [OPTIONAL]
+//	predicate predicate[TObject] [OPTIONAL]
 //
 // A function to test each element for a condition.
 //
@@ -20,7 +18,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A number that represents how many elements in the sequence satisfy the condition in the predicate function or
 // the number of elements in the input sequence if predicate is ommited.
-func Count[TSource ~[]TObject, TObject any](source TSource, predicate ...delegate.Predicate[TObject]) (count int) {
+func Count[TSource ~[]TObject, TObject any](source TSource, predicate ...predicate[TObject]) (count int) {
 	if len(predicate) > 0 {
 		Predicate := predicate[0]
 		for _, item := range source {

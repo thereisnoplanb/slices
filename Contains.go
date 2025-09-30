@@ -1,9 +1,6 @@
 package slices
 
-import (
-	"github.com/thereisnoplanb/compare"
-	"github.com/thereisnoplanb/delegate"
-)
+import "github.com/thereisnoplanb/compare"
 
 // Determines whether a sequence contains a specified element by using the default equality comparer.
 //
@@ -85,7 +82,7 @@ func ContainsEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](
 	return false
 }
 
-func ContainsBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, value TObject, valueSelector delegate.ValueSelector[TObject, TResult]) (result bool) {
+func ContainsBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, value TObject, valueSelector valueSelector[TObject, TResult]) (result bool) {
 	selectedValue := valueSelector(value)
 	for _, item := range source {
 		if selectedValue == valueSelector(item) {
@@ -95,7 +92,7 @@ func ContainsBy[TSource ~[]TObject, TObject any, TResult comparable](source TSou
 	return false
 }
 
-func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, value TObject, valueSelector delegate.ValueSelector[TObject, TResult]) (result bool) {
+func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, value TObject, valueSelector valueSelector[TObject, TResult]) (result bool) {
 	selectedValue := valueSelector(value)
 	for _, item := range source {
 		if selectedValue.Equal(valueSelector(item)) {
@@ -105,7 +102,7 @@ func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquat
 	return false
 }
 
-func ContainsByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, value TObject, valueSelector delegate.ValueSelector[TObject, TResult], equality compare.Equality[TResult]) (result bool) {
+func ContainsByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, value TObject, valueSelector valueSelector[TObject, TResult], equality compare.Equality[TResult]) (result bool) {
 	selectedValue := valueSelector(value)
 	for _, item := range source {
 		if equality(selectedValue, valueSelector(item)) {

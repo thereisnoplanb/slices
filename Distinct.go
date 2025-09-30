@@ -1,9 +1,6 @@
 package slices
 
-import (
-	"github.com/thereisnoplanb/compare"
-	"github.com/thereisnoplanb/delegate"
-)
+import "github.com/thereisnoplanb/compare"
 
 func Distinct[TSource ~[]TObject, TObject comparable](source TSource) (result TSource) {
 	result = make(TSource, 0, len(source))
@@ -45,7 +42,7 @@ func DistinctEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](
 // 	return result
 // }
 
-func DistinctBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
+func DistinctBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsBy(result, item, valueSelector) {
@@ -55,7 +52,7 @@ func DistinctBy[TSource ~[]TObject, TObject any, TResult comparable](source TSou
 	return result
 }
 
-func DistinctByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
+func DistinctByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsByEquatable(result, item, valueSelector) {
@@ -65,7 +62,7 @@ func DistinctByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquat
 	return result
 }
 
-func DistinctByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector delegate.ValueSelector[TObject, TResult], equality compare.Equality[TResult]) (result TSource) {
+func DistinctByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector valueSelector[TObject, TResult], equality compare.Equality[TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsByFunc(result, item, valueSelector, equality) {

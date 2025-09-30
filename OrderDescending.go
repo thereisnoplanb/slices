@@ -4,7 +4,6 @@ import (
 	"sort"
 
 	"github.com/thereisnoplanb/compare"
-	"github.com/thereisnoplanb/delegate"
 )
 
 func OrderDescending[TSource ~[]TObject, TObject compare.Comparable](source TSource) (result TSource) {
@@ -34,7 +33,7 @@ func OrderDescendingComparator[TSource ~[]TObject, TObject any](source TSource, 
 	return result
 }
 
-func OrderDescendingBy[TSource ~[]TObject, TObject any, TResult compare.Comparable](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
+func OrderDescendingBy[TSource ~[]TObject, TObject any, TResult compare.Comparable](source TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -43,7 +42,7 @@ func OrderDescendingBy[TSource ~[]TObject, TObject any, TResult compare.Comparab
 	return result
 }
 
-func OrdeDescendingByComparable[TSource ~[]TObject, TObject any, TResult compare.IComparable[TResult]](source TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
+func OrdeDescendingByComparable[TSource ~[]TObject, TObject any, TResult compare.IComparable[TResult]](source TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {
@@ -52,7 +51,7 @@ func OrdeDescendingByComparable[TSource ~[]TObject, TObject any, TResult compare
 	return result
 }
 
-func OrderDescendingByComparator[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector delegate.ValueSelector[TObject, TResult], compare compare.Comparison[TResult]) (result TSource) {
+func OrderDescendingByComparator[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector valueSelector[TObject, TResult], compare compare.Comparison[TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
 	sort.Slice(result, func(i, j int) bool {

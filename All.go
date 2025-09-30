@@ -1,7 +1,5 @@
 package slices
 
-import "github.com/thereisnoplanb/delegate"
-
 // Determines whether all elements of a sequence satisfy a condition.
 //
 // # Parameters
@@ -10,7 +8,7 @@ import "github.com/thereisnoplanb/delegate"
 //
 // A slice that contains the elements to apply the predicate to.
 //
-// 	predicate Predicate[TObject]
+// 	predicate predicate[TObject]
 //
 // A function to test each element for a condition.
 //
@@ -19,7 +17,7 @@ import "github.com/thereisnoplanb/delegate"
 //	result bool
 //
 // True if every element of the source sequence passes the test in the specified predicate, or if the sequence is empty or nil; otherwise, false.
-func All[TSource ~[]TObject, TObject any](source TSource, predicate delegate.Predicate[TObject]) (result bool) {
+func All[TSource ~[]TObject, TObject any](source TSource, predicate predicate[TObject]) (result bool) {
 	for _, item := range source {
 		if !predicate(item) {
 			return false

@@ -4,15 +4,13 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-
-	"github.com/thereisnoplanb/delegate"
 )
 
 func TestAggreagate(t *testing.T) {
 	type args struct {
 		source     []int
 		seed       string
-		accumulate delegate.Accumulator[int, string]
+		accumulate accumulate[string, int]
 	}
 	tests := []struct {
 		name       string

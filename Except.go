@@ -1,9 +1,6 @@
 package slices
 
-import (
-	"github.com/thereisnoplanb/compare"
-	"github.com/thereisnoplanb/delegate"
-)
+import "github.com/thereisnoplanb/compare"
 
 func Except[TSource ~[]TObject, TObject comparable](source TSource, except TSource) (result TSource) {
 	result = make(TSource, 0, len(source))
@@ -35,7 +32,7 @@ func ExceptFunc[TSource ~[]TObject, TObject any](source TSource, except TSource,
 	return result
 }
 
-func ExceptBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, except TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
+func ExceptBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, except TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsBy(except, item, valueSelector) {
@@ -45,7 +42,7 @@ func ExceptBy[TSource ~[]TObject, TObject any, TResult comparable](source TSourc
 	return result
 }
 
-func ExceptByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, except TSource, valueSelector delegate.ValueSelector[TObject, TResult]) (result TSource) {
+func ExceptByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, except TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsByEquatable(except, item, valueSelector) {
@@ -55,7 +52,7 @@ func ExceptByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatab
 	return result
 }
 
-func ExceptByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, except TSource, valueSelctor delegate.ValueSelector[TObject, TResult], equality compare.Equality[TResult]) (result TSource) {
+func ExceptByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, except TSource, valueSelctor valueSelector[TObject, TResult], equality compare.Equality[TResult]) (result TSource) {
 	result = make(TSource, 0, len(source))
 	for _, item := range source {
 		if !ContainsByFunc(except, item, valueSelctor, equality) {
