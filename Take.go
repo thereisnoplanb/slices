@@ -18,11 +18,9 @@ package slices
 //
 // A sequence that contains the specified number of elements from the start of the input sequence.
 func Take[TSource ~[]TObject, TObject any](source TSource, count int) (result TSource) {
-	count = min(len(source), count)
+	count = min(len(source), max(count, 0))
 	result = make(TSource, count)
-	for i := 0; i < count; i++ {
-		result[i] = source[i]
-	}
+	_ = copy(result, source)
 	return result
 }
 
@@ -44,14 +42,10 @@ func Take[TSource ~[]TObject, TObject any](source TSource, count int) (result TS
 //
 // A sequence that contains the elements that occur before the last [count] elements in the input sequence.
 func TakeLast[TSource ~[]TObject, TObject any](source TSource, count int) (result TSource) {
-	length := len(source) - count
-	if length <= 0 {
-		return make(TSource, 0)
-	}
-	result = make(TSource, len(source))
-	for i := 0; i < length; i++ {
-		result[i] = source[i]
-	}
+	count = min(len(source), max(count, 0))
+	result = make(TSource, count)
+	offset := len(source) - count
+	copy(result, source[offset:])
 	return result
 }
 
