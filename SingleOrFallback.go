@@ -24,12 +24,12 @@ func SingleOrFallback[TSource ~[]TObject, TObject any](source TSource, fallback 
 		if len(predicate) > 0 {
 			found := false
 			Predicate := predicate[0]
-			for _, item := range source {
-				if Predicate(item) {
+			for i := range source {
+				if Predicate(source[i]) {
 					if found {
 						return fallback
 					}
-					result = item
+					result = source[i]
 					found = true
 				}
 			}

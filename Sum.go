@@ -16,8 +16,8 @@ import "github.com/thereisnoplanb/compare"
 //
 // The sum of the values in the sequence.
 func Sum[TSource ~[]TObject, TObject compare.Number | compare.String](source TSource) (result TObject) {
-	for _, item := range source {
-		result += item
+	for i := range source {
+		result += source[i]
 	}
 	return result
 }
@@ -40,8 +40,8 @@ func Sum[TSource ~[]TObject, TObject compare.Number | compare.String](source TSo
 //
 // The sum of the transformed values in the sequence.
 func SumFunc[TSource ~[]TObject, TObject any, TResult compare.Number | compare.String](source TSource, valueSelector valueSelector[TObject, TResult]) (result TResult) {
-	for _, item := range source {
-		result += valueSelector(item)
+	for i := range source {
+		result += valueSelector(source[i])
 	}
 	return result
 }

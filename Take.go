@@ -44,8 +44,7 @@ func Take[TSource ~[]TObject, TObject any](source TSource, count int) (result TS
 func TakeLast[TSource ~[]TObject, TObject any](source TSource, count int) (result TSource) {
 	count = min(len(source), max(count, 0))
 	result = make(TSource, count)
-	offset := len(source) - count
-	copy(result, source[offset:])
+	copy(result, source[len(source)-count:])
 	return result
 }
 
@@ -68,9 +67,9 @@ func TakeLast[TSource ~[]TObject, TObject any](source TSource, count int) (resul
 // A sequence that contains the elements from the input sequence that occur before the element at which the test no longer passes.
 func TakeWhile[TSource ~[]TObject, TObject any](source TSource, predicate predicate[TObject]) (result TSource) {
 	result = make(TSource, 0, len(source))
-	for _, item := range source {
-		if predicate(item) {
-			result = append(result, item)
+	for i := range source {
+		if predicate(source[i]) {
+			result = append(result, source[i])
 		}
 	}
 	return result

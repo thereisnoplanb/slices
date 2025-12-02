@@ -18,15 +18,9 @@ package slices
 //
 // A sequence that contains the elements that occur after the first [count] elements in the input sequence.
 func Skip[TSource ~[]TObject, TObject any](source TSource, count int) (result TSource) {
-	length := len(source)
-	if count >= length {
-		return make(TSource, 0)
-	}
-	result = make(TSource, length-count)
-	for i := 0; count < length; count++ {
-		result[i] = source[count]
-		i++
-	}
+	count = min(len(source), max(count, 0))
+	result = make(TSource, len(source)-count)
+	copy(result, source[count:])
 	return result
 }
 
@@ -48,14 +42,9 @@ func Skip[TSource ~[]TObject, TObject any](source TSource, count int) (result TS
 //
 // A sequence that contains the elements that occur before the last [count] elements in the input sequence.
 func SkipLast[TSource ~[]TObject, TObject any](source TSource, count int) (result TSource) {
-	length := len(source) - count
-	if length <= 0 {
-		return make(TSource, 0)
-	}
-	result = make(TSource, len(source))
-	for i := 0; i < length; i++ {
-		result[i] = source[i]
-	}
+	count = min(len(source), max(count, 0))
+	result = make(TSource, len(source)-count)
+	copy(result, source)
 	return result
 }
 
@@ -79,9 +68,9 @@ func SkipLast[TSource ~[]TObject, TObject any](source TSource, count int) (resul
 // that does not pass the test specified by predicate.
 func SkipWhile[TSource ~[]TObject, TObject any](source TSource, predicate predicate[TObject]) (result TSource) {
 	result = make(TSource, 0, len(source))
-	for _, item := range source {
-		if !predicate(item) {
-			result = append(result, item)
+	for i := range source {
+		if !predicate(source[i]) {
+			result = append(result, source[i])
 		}
 	}
 	return result

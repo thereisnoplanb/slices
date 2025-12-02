@@ -23,9 +23,9 @@ func Intersect[TSource ~[]TObject, TObject comparable](first, second TSource) (r
 	first = Distinct(first)
 	second = Distinct(second)
 	result = make(TSource, 0, len(first))
-	for _, item := range first {
-		if Contains(second, item) {
-			result = append(result, item)
+	for i := range first {
+		if Contains(second, first[i]) {
+			result = append(result, first[i])
 			continue
 		}
 	}
@@ -53,9 +53,9 @@ func IntersectEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]]
 	first = DistinctEquatable(first)
 	second = DistinctEquatable(second)
 	result = make(TSource, 0, len(first))
-	for _, item := range first {
-		if ContainsEquatable(second, item) {
-			result = append(result, item)
+	for i := range first {
+		if ContainsEquatable(second, first[i]) {
+			result = append(result, first[i])
 			continue
 		}
 	}
@@ -87,9 +87,9 @@ func IntersectFunc[TSource ~[]TObject, TObject any](first, second TSource, equal
 	first = DistinctFunc(first, equality)
 	second = DistinctFunc(second, equality)
 	result = make(TSource, 0, len(first))
-	for _, item := range first {
-		if ContainsFunc(second, item, equality) {
-			result = append(result, item)
+	for i := range first {
+		if ContainsFunc(second, first[i], equality) {
+			result = append(result, first[i])
 			continue
 		}
 	}

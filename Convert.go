@@ -19,8 +19,8 @@ package slices
 // A sequence that contains each element of the source sequence converted to the specified type.
 func Convert[TSource ~[]TObject, TObject any, TResult any](source TSource, convert convert[TObject, TResult]) (result []TResult) {
 	result = make([]TResult, len(source))
-	for i, item := range source {
-		result[i] = convert(item)
+	for i := range source {
+		result[i] = convert(source[i])
 	}
 	return result
 }

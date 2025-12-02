@@ -24,12 +24,12 @@ func SingleOrDefault[TSource ~[]TObject, TObject any](source TSource, predicate 
 		if len(predicate) > 0 {
 			found := false
 			Predicate := predicate[0]
-			for _, item := range source {
-				if Predicate(item) {
+			for i := range source {
+				if Predicate(source[i]) {
 					if found {
 						return *new(TObject)
 					}
-					result = item
+					result = source[i]
 					found = true
 				}
 			}

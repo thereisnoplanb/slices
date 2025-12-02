@@ -23,8 +23,8 @@ package slices
 // The final accumulator value.
 func Aggreagate[TSource ~[]TObject, TObject any, TAccumulator any](source TSource, seed TAccumulator, accumulate accumulate[TAccumulator, TObject]) (result TAccumulator) {
 	result = seed
-	for _, item := range source {
-		result = accumulate(result, item)
+	for i := range source {
+		result = accumulate(result, source[i])
 	}
 	return result
 }

@@ -26,9 +26,9 @@ package slices
 func FirstOrFallback[TSource ~[]TObject, TObject any](source TSource, fallback TObject, predicate ...predicate[TObject]) (result TObject) {
 	if len(source) > 0 {
 		if len(predicate) > 0 {
-			for i, item := range source {
+			for i := range source {
 				Predicate := predicate[0]
-				if Predicate(item) {
+				if Predicate(source[i]) {
 					return source[i]
 				}
 			}

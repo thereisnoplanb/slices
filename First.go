@@ -27,8 +27,8 @@ func First[TSource ~[]TObject, TObject any](source TSource, predicate ...predica
 	if len(source) > 0 {
 		if len(predicate) > 0 {
 			Predicate := predicate[0]
-			for i, item := range source {
-				if Predicate(item) {
+			for i := range source {
+				if Predicate(source[i]) {
 					return source[i], nil
 				}
 			}

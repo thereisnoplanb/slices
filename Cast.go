@@ -19,8 +19,8 @@ package slices
 // ErrInvalidCast when any element in the sequence cannot be casted to type TResult.
 func Cast[TResult any](source []any) (result []TResult, err error) {
 	result = make([]TResult, len(source))
-	for i, item := range source {
-		value, ok := item.(TResult)
+	for i := range source {
+		value, ok := source[i].(TResult)
 		if !ok {
 			return nil, ErrInvalidCast
 		}

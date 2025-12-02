@@ -18,8 +18,8 @@ package slices
 //
 // True if every element of the source sequence passes the test in the specified predicate, or if the sequence is empty or nil; otherwise, false.
 func All[TSource ~[]TObject, TObject any](source TSource, predicate predicate[TObject]) (result bool) {
-	for _, item := range source {
-		if !predicate(item) {
+	for i := range source {
+		if !predicate(source[i]) {
 			return false
 		}
 	}

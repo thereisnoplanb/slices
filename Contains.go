@@ -20,8 +20,8 @@ import "github.com/thereisnoplanb/compare"
 //
 // True if the source sequence contains an element that has the specified value; otherwise, false.
 func Contains[TSource ~[]TObject, TObject comparable](source TSource, value TObject) (result bool) {
-	for _, item := range source {
-		if item == value {
+	for i := range source {
+		if source[i] == value {
 			return true
 		}
 	}
@@ -50,8 +50,8 @@ func Contains[TSource ~[]TObject, TObject comparable](source TSource, value TObj
 //
 // True if the source sequence contains an element that has the specified value; otherwise, false.
 func ContainsFunc[TSource ~[]TObject, TObject any](source TSource, value TObject, equality compare.Equality[TObject]) (result bool) {
-	for _, item := range source {
-		if equality(item, value) {
+	for i := range source {
+		if equality(source[i], value) {
 			return true
 		}
 	}
@@ -74,8 +74,8 @@ func ContainsFunc[TSource ~[]TObject, TObject any](source TSource, value TObject
 //
 // True if the source sequence contains an element that has the specified value; otherwise, false.
 func ContainsEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](source TSource, value TObject) (result bool) {
-	for _, item := range source {
-		if value.Equal(item) {
+	for i := range source {
+		if value.Equal(source[i]) {
 			return true
 		}
 	}
@@ -84,8 +84,8 @@ func ContainsEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](
 
 func ContainsBy[TSource ~[]TObject, TObject any, TResult comparable](source TSource, value TObject, valueSelector valueSelector[TObject, TResult]) (result bool) {
 	selectedValue := valueSelector(value)
-	for _, item := range source {
-		if selectedValue == valueSelector(item) {
+	for i := range source {
+		if selectedValue == valueSelector(source[i]) {
 			return true
 		}
 	}
@@ -94,8 +94,8 @@ func ContainsBy[TSource ~[]TObject, TObject any, TResult comparable](source TSou
 
 func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquatable[TResult]](source TSource, value TObject, valueSelector valueSelector[TObject, TResult]) (result bool) {
 	selectedValue := valueSelector(value)
-	for _, item := range source {
-		if selectedValue.Equal(valueSelector(item)) {
+	for i := range source {
+		if selectedValue.Equal(valueSelector(source[i])) {
 			return true
 		}
 	}
@@ -104,8 +104,8 @@ func ContainsByEquatable[TSource ~[]TObject, TObject any, TResult compare.IEquat
 
 func ContainsByFunc[TSource ~[]TObject, TObject any, TResult any](source TSource, value TObject, valueSelector valueSelector[TObject, TResult], equality compare.Equality[TResult]) (result bool) {
 	selectedValue := valueSelector(value)
-	for _, item := range source {
-		if equality(selectedValue, valueSelector(item)) {
+	for i := range source {
+		if equality(selectedValue, valueSelector(source[i])) {
 			return true
 		}
 	}

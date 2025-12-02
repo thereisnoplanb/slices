@@ -20,8 +20,8 @@ import "github.com/thereisnoplanb/compare"
 //
 // True if the source sequence contains any element that has value ​​equal to any of the values ​​in the specified values; false otherwise.
 func ContainsAny[TSource ~[]TObject, TObject comparable](source TSource, values ...TObject) (result bool) {
-	for _, item := range values {
-		if Contains(source, item) {
+	for i := range values {
+		if Contains(source, values[i]) {
 			return true
 		}
 	}
@@ -46,8 +46,8 @@ func ContainsAny[TSource ~[]TObject, TObject comparable](source TSource, values 
 //
 // True if the source sequence contains any element that has value ​​equal to any of the values ​​in the specified values; false otherwise.
 func ContainsAnyFunc[TSource ~[]TObject, TObject any](source TSource, equality compare.Equality[TObject], values ...TObject) (result bool) {
-	for _, item := range values {
-		if ContainsFunc(source, item, equality) {
+	for i := range values {
+		if ContainsFunc(source, values[i], equality) {
 			return true
 		}
 	}
@@ -72,8 +72,8 @@ func ContainsAnyFunc[TSource ~[]TObject, TObject any](source TSource, equality c
 //
 // True if the source sequence contains any element that has value ​​equal to any of the values ​​in the specified values; false otherwise.
 func ContainsAnyEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](source TSource, values ...TObject) (result bool) {
-	for _, item := range values {
-		if ContainsEquatable(source, item) {
+	for i := range values {
+		if ContainsEquatable(source, values[i]) {
 			return true
 		}
 	}

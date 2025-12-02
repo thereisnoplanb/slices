@@ -24,8 +24,8 @@ package slices
 func Any[TSource ~[]TObject, TObject any](source TSource, predicate ...predicate[TObject]) (result bool) {
 	if len(predicate) > 0 {
 		Predicate := predicate[0]
-		for _, item := range source {
-			if Predicate(item) {
+		for i := range source {
+			if Predicate(source[i]) {
 				return true
 			}
 		}

@@ -19,9 +19,9 @@ package slices
 // A slice that contains elements from the input sequence that satisfy the condition.
 func Where[TSource ~[]TObject, TObject any](source TSource, predicate predicate[TObject]) (result TSource) {
 	result = make(TSource, 0, len(source))
-	for _, item := range source {
-		if predicate(item) {
-			result = append(result, item)
+	for i := range source {
+		if predicate(source[i]) {
+			result = append(result, source[i])
 		}
 	}
 	return result
