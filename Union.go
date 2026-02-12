@@ -14,14 +14,21 @@ import "github.com/thereisnoplanb/compare"
 //
 // A sequence whose distinct elements form the second set for the union.
 //
+// 	next ...[]TObject [OPTIONAL]
+//
+// A sequence of additional sequences whose distinct elements form the next set for the union.
+//
 // # Returns
 //
 //	result []TObject
 //
-// A sequence that contains the elements from both input sequences, excluding duplicates.
-func Union[TSource ~[]TObject, TObject comparable](first, second TSource) (result TSource) {
+// A sequence that contains the elements from both (or more) input sequences, excluding duplicates.
+func Union[TSource ~[]TObject, TObject comparable](first, second TSource, next ...TSource) (result TSource) {
 	result = append(result, first...)
 	result = append(result, second...)
+	for i := range next {
+		result = append(result, next[i]...)
+	}
 	return Distinct(result)
 }
 
@@ -37,14 +44,21 @@ func Union[TSource ~[]TObject, TObject comparable](first, second TSource) (resul
 //
 // A sequence whose distinct elements form the second set for the union.
 //
+// 	next ...[]TObject [OPTIONAL]
+//
+// A sequence of additional sequences whose distinct elements form the next set for the union.
+//
 // # Returns
 //
 //	result []TObject
 //
-// A sequence that contains the elements from both input sequences, excluding duplicates.
-func UnionEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](first, second TSource) (result TSource) {
+// A sequence that contains the elements from both (or more) input sequences, excluding duplicates.
+func UnionEquatable[TSource ~[]TObject, TObject compare.IEquatable[TObject]](first, second TSource, next ...TSource) (result TSource) {
 	result = append(result, first...)
 	result = append(result, second...)
+	for i := range next {
+		result = append(result, next[i]...)
+	}
 	return DistinctEquatable(result)
 }
 

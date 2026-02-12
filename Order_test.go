@@ -105,3 +105,50 @@ func TestOrderComparable(t *testing.T) {
 		})
 	}
 }
+
+func TestOrderBy(t *testing.T) {
+	type args struct {
+		source        []string
+		valueSelector valueSelector[string, int]
+		thenBy        []thenBy[string]
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantResult []string
+	}{
+		{
+			name: "Normal test 1",
+			args: args{
+				source: []string{"grape", "passionfruit", "banana", "mango", "orange", "raspberry", "apple", "blueberry"},
+				valueSelector: func(s string) int {
+					return len(s)
+				},
+				thenBy: []thenBy[string]{
+					ThenBy(func(item string) string { return item }),
+				},
+			},
+			wantResult: []string{"apple", "grape", "mango", "banana", "orange", "blueberry", "raspberry", "passionfruit"},
+		},
+		{
+			name: "Normal test 2",
+			args: args{
+				source: []string{"grape", "passionfruit", "banana", "mango", "orange", "raspberry", "apple", "blueberry"},
+				valueSelector: func(s string) int {
+					return len(s)
+				},
+				thenBy: []thenBy[string]{
+					ThenDescendingBy(func(item string) string { return item }),
+				},
+			},
+			wantResult: []string{"mango", "grape", "apple", "orange", "banana", "raspberry", "blueberry", "passionfruit"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotResult := OrderBy(tt.args.source, tt.args.valueSelector, tt.args.thenBy...); !reflect.DeepEqual(gotResult, tt.wantResult) {
+				t.Errorf("OrderBy() = %v, want %v", gotResult, tt.wantResult)
+			}
+		})
+	}
+}

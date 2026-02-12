@@ -9,7 +9,7 @@ import (
 func OrderDescending[TSource ~[]TObject, TObject compare.Comparable](source TSource) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
-	sort.Slice(result, func(i, j int) bool {
+	sort.SliceStable(result, func(i, j int) bool {
 		return result[i] > result[j]
 	})
 	return result
@@ -18,7 +18,7 @@ func OrderDescending[TSource ~[]TObject, TObject compare.Comparable](source TSou
 func OrderDescendingComparable[TSource ~[]TObject, TObject compare.IComparable[TObject]](source TSource) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
-	sort.Slice(result, func(i, j int) bool {
+	sort.SliceStable(result, func(i, j int) bool {
 		return result[i].Compare(result[j]) > 0
 	})
 	return result
@@ -27,25 +27,31 @@ func OrderDescendingComparable[TSource ~[]TObject, TObject compare.IComparable[T
 func OrderDescendingComparator[TSource ~[]TObject, TObject any](source TSource, compare compare.Comparison[TObject]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
-	sort.Slice(result, func(i, j int) bool {
+	sort.SliceStable(result, func(i, j int) bool {
 		return compare(result[i], result[j]) > 0
 	})
 	return result
 }
 
-func OrderDescendingBy[TSource ~[]TObject, TObject any, TResult compare.Comparable](source TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
+func OrderDescendingBy[TSource ~[]TObject, TObject any, TResult compare.Comparable](source TSource, valueSelector valueSelector[TObject, TResult], thenBy ...thenBy[TObject]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
-	sort.Slice(result, func(i, j int) bool {
+	for i := len(thenBy) - 1; i >= 0; i-- {
+		thenBy[i](result)
+	}
+	sort.SliceStable(result, func(i, j int) bool {
 		return valueSelector(result[i]) > valueSelector(result[j])
 	})
 	return result
 }
 
-func OrdeDescendingByComparable[TSource ~[]TObject, TObject any, TResult compare.IComparable[TResult]](source TSource, valueSelector valueSelector[TObject, TResult]) (result TSource) {
+func OrderDescendingByComparable[TSource ~[]TObject, TObject any, TResult compare.IComparable[TResult]](source TSource, valueSelector valueSelector[TObject, TResult], thenBy ...thenBy[TObject]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
-	sort.Slice(result, func(i, j int) bool {
+	for i := len(thenBy) - 1; i >= 0; i-- {
+		thenBy[i](result)
+	}
+	sort.SliceStable(result, func(i, j int) bool {
 		return valueSelector(result[i]).Compare(valueSelector(result[j])) > 0
 	})
 	return result
@@ -54,7 +60,7 @@ func OrdeDescendingByComparable[TSource ~[]TObject, TObject any, TResult compare
 func OrderDescendingByComparator[TSource ~[]TObject, TObject any, TResult any](source TSource, valueSelector valueSelector[TObject, TResult], compare compare.Comparison[TResult]) (result TSource) {
 	result = make(TSource, len(source))
 	copy(result, source)
-	sort.Slice(result, func(i, j int) bool {
+	sort.SliceStable(result, func(i, j int) bool {
 		return compare(valueSelector(result[i]), valueSelector(result[j])) > 0
 	})
 	return result

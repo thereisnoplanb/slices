@@ -5,3 +5,4 @@ type accumulate[TAccumulator any, TObject any] = func(accumulator TAccumulator, 
 type predicate[TObject any] = func(object TObject) bool
 type convert[TObject any, TResult any] = func(object TObject) (TResult, error)
 type keySelector[TObject any, TKey comparable] = func(object TObject) TKey
+type thenBy[TObject any] func(source []TObject)
