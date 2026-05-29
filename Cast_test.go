@@ -34,7 +34,7 @@ func TestCast(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotResult, err := Cast[int](tt.args.source)
+			gotResult, err := Cast[any, int](tt.args.source)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Cast() error = %v, wantErr %v", err, tt.wantErr)
 				return

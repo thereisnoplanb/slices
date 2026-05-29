@@ -1,10 +1,10 @@
 package slices
 
-// Casts the elements of the source []any to the specified type.
+// Casts the elements of the source []TSource to the specified type TResult.
 //
 // # Parameters
 //
-//	source []any
+//	source []TSource
 //
 // A slice that contains the elements to be cast to type TResult.
 //
@@ -17,10 +17,10 @@ package slices
 //	err error
 //
 // ErrInvalidCast when any element in the sequence cannot be casted to type TResult.
-func Cast[TResult any](source []any) (result []TResult, err error) {
+func Cast[TSource any, TResult any](source []TSource) (result []TResult, err error) {
 	result = make([]TResult, len(source))
 	for i := range source {
-		value, ok := source[i].(TResult)
+		value, ok := any(source[i]).(TResult)
 		if !ok {
 			return nil, ErrInvalidCast
 		}
